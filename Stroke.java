@@ -15,7 +15,6 @@ public class Stroke {
     public Stroke(double x, double y) {
         initX = x;
         initY = y;
-        //addPoint(x,y);
     }
 
     public void addPoint(double x, double y) {
