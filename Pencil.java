@@ -3,9 +3,9 @@
 // You may not distribute it in any other way without permission.
 
 /* Code for COMP103 - 2023T2, Assignment 2
- * Name:
- * Username:
- * ID:
+ * Name: Amy Booth
+ * Username: boothamy
+ * ID: 300653766
  */
 
 import ecs100.*;
@@ -13,8 +13,7 @@ import java.util.*;
 
 /** Pencil   */
 public class Pencil{
-    private double lastX;
-    private double lastY;
+    private Stroke stroke;
 
     /**
      * Setup the GUI
@@ -31,16 +30,14 @@ public class Pencil{
      */
     public void doMouse(String action, double x, double y) {
         if (action.equals("pressed")){
-            lastX = x;
-            lastY = y;
-        }
+            stroke = new Stroke(x,y);
+            }
         else if (action.equals("dragged")){
-            UI.drawLine(lastX, lastY, x, y);
-            lastX = x;
-            lastY = y;
-        }
+            stroke.addPoint(x,y);
+            stroke.draw();
+            }
         else if (action.equals("released")){
-            UI.drawLine(lastX, lastY, x, y);
+            stroke.draw();
         }
     }
 
