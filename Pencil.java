@@ -9,6 +9,9 @@
  */
 
 import ecs100.*;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.*;
 
 /** Pencil   */
@@ -17,6 +20,9 @@ public class Pencil{
     private Stack<Stroke> drawn = new Stack<>();
     private Stack<Stroke> undone = new Stack<>();
 
+    private Color colour = Color.black;
+    private double width = 3;
+
     /**
      * Setup the GUI
      */
@@ -24,8 +30,9 @@ public class Pencil{
         UI.setMouseMotionListener(this::doMouse);
         UI.addButton("Undo", this::undo);
         UI.addButton("Redo", this::redo);
+        UI.addSlider("Brush width", 1, 10, 3, this::setWidth);
+        UI.addButton("Brush colour", this::setColor);
         UI.addButton("Quit", UI::quit);
-        UI.setLineWidth(3);
         UI.setDivider(0.0);
     }
 
@@ -34,7 +41,7 @@ public class Pencil{
      */
     public void doMouse(String action, double x, double y) {
         if (action.equals("pressed")){
-            stroke = new Stroke(x,y);
+            stroke = new Stroke(colour, width, x,y);
             }
         else if (action.equals("dragged")){
             stroke.addPoint(x,y);
@@ -59,6 +66,10 @@ public class Pencil{
             Stroke toUndo = drawn.pop();
             undone.push(toUndo);
             display();
+            if(!drawn.isEmpty()) {
+                colour = drawn.peek().getColour();
+                width = drawn.peek().getWidth();
+            }
         }
     }
 
@@ -67,7 +78,19 @@ public class Pencil{
             Stroke toRedo = undone.pop();
             drawn.push(toRedo);
             display();
+            if (!drawn.isEmpty()) {
+                colour = drawn.peek().getColour();
+                width = drawn.peek().getWidth();
+            }
         }
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public void setColor() {
+        colour = JColorChooser.showDialog(UI.getFrame(), "Choose a colour", Color.black);
     }
 
     public static void main(String[] arguments){
