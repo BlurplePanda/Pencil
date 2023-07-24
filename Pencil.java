@@ -66,10 +66,7 @@ public class Pencil{
             Stroke toUndo = drawn.pop();
             undone.push(toUndo);
             display();
-            if(!drawn.isEmpty()) {
-                colour = drawn.peek().getColour();
-                width = drawn.peek().getWidth();
-            }
+            setColourLast();
         }
     }
 
@@ -78,10 +75,14 @@ public class Pencil{
             Stroke toRedo = undone.pop();
             drawn.push(toRedo);
             display();
-            if (!drawn.isEmpty()) {
-                colour = drawn.peek().getColour();
-                width = drawn.peek().getWidth();
-            }
+            setColourLast();
+        }
+    }
+
+    public void setColourLast() {
+        if(!drawn.isEmpty()) {
+            colour = drawn.peek().getColour();
+            width = drawn.peek().getWidth();
         }
     }
 
